@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -27,5 +28,9 @@ public class Controller {
         else{
             JOptionPane.showMessageDialog(null, "Nenhuma mensagem a ser enviada.");
         }
+    }
+
+    public void clickImageView(Event event) {
+        System.out.print("Hello!!!");
     }
 }
