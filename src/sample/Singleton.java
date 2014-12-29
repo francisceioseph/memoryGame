@@ -2,12 +2,18 @@ package sample;
 
 import javafx.scene.Scene;
 
+import java.net.InetAddress;
+
 /**
- * Created by gladyson on 23/12/2014.
+ * Created by Francisco José A. C. Souza on 23/12/2014.
  */
 public enum Singleton {
     INSTANCE;
     public Scene scene;
-    public int myPort;
-    public int partnerPort;
+
+    public String opponentIPAddress;
+    public int opponentIMServerPort;
+
+    public String localIPAddress;
+    public int localIMServerPort;
 }
