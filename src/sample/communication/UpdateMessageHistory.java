@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 /**
- * Created by gladyson on 23/12/2014.
+ * Created by Francisco José A. C. Souza on 23/12/2014.
  */
 public class UpdateMessageHistory implements Runnable {
     private Socket socket;
