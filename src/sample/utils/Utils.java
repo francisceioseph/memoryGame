@@ -8,7 +8,7 @@ import javafx.scene.text.TextAlignment;
 import static javafx.geometry.Pos.BASELINE_LEFT;
 
 /**
- * Created by francisco on 30/12/14.
+ * Created by Francisco José A. C. Souza on 30/12/14.
  */
 public class Utils {
     public static HBox makeBalloon(String message, boolean fromNetwork) {
