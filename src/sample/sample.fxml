@@ -63,7 +63,7 @@
          <children>
             <ImageView fx:id="imageView00" fitHeight="110.0" fitWidth="74.0" onMouseClicked="#clickImageView" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
                <GridPane.margin>
                   <Insets />
@@ -71,132 +71,132 @@
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="1">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="1">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="1">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="2">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="2">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="2">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.rowIndex="3">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="110.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="3">
                <image>
-                  <Image url="@cards/cardback.png" />
+                  <Image url="@images/cards/cardback.png" />
                </image>
             </ImageView>
          </children>
