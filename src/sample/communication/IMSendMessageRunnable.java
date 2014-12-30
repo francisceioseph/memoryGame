@@ -1,6 +1,7 @@
 package sample.communication;
 
 import sample.Singleton;
+import sample.utils.Utils;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class IMSendMessageRunnable implements Runnable {
             this.socketToServer = new Socket(Singleton.INSTANCE.opponentIPAddress, Singleton.INSTANCE.opponentIMServerPort);
             DataOutputStream dataOutputStream = new DataOutputStream(this.socketToServer.getOutputStream());
             dataOutputStream.writeUTF(this.messageToSent);
+            Singleton.INSTANCE.balloons.add(Utils.makeBalloon(this.messageToSent, false));
         }catch (IOException e){
             e.printStackTrace();
         }

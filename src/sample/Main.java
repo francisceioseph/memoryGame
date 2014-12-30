@@ -2,6 +2,8 @@ package sample;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -51,7 +53,7 @@ public class Main extends Application {
             Singleton.INSTANCE.localIPAddress = "127.0.0.1";
         }
 
-        Singleton.INSTANCE.localIMServerPort = 7777;
+        Singleton.INSTANCE.localIMServerPort = Integer.parseInt(JOptionPane.showInputDialog(null, "Qual a porta do servidor local de mensagens?"));
     }
     private static void bootIMServer(){
         messagesServerRunnable = new IMServerRunnable();

@@ -1,8 +1,8 @@
 package sample;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-
-import java.net.InetAddress;
+import javafx.scene.layout.HBox;
 
 /**
  * Created by Francisco José A. C. Souza on 23/12/2014.
@@ -16,4 +16,6 @@ public enum Singleton {
 
     public String localIPAddress;
     public int localIMServerPort;
+
+    public ObservableList<HBox> balloons;
 }

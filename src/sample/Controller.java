@@ -1,18 +1,28 @@
 package sample;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
+import javafx.util.Callback;
 import sample.communication.IMSendMessageRunnable;
 
 import javax.swing.*;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class Controller {
+import static javafx.geometry.Pos.BASELINE_LEFT;
+import static javafx.geometry.Pos.BASELINE_RIGHT;
+
+public class Controller implements Initializable{
     @FXML
-    TextArea messagesTextField;
+    ListView<HBox> messagesListView;
+
     @FXML
     TextField messageInputField;
     @FXML
@@ -24,6 +34,7 @@ public class Controller {
         if (!messageInputField.getText().isEmpty()) {
             Thread t = new Thread(new IMSendMessageRunnable(messageInputField.getText()));
             t.start();
+            this.messageInputField.clear();
         }
         else{
             JOptionPane.showMessageDialog(null, "Nenhuma mensagem a ser enviada.");
@@ -33,4 +44,15 @@ public class Controller {
     public void clickImageView(Event event) {
         System.out.print("Hello!!!");
     }
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println("Initializing controllers");
+
+        Singleton.INSTANCE.balloons = FXCollections.observableArrayList();
+
+        messagesListView.setItems(Singleton.INSTANCE.balloons);
+    }
+
 }

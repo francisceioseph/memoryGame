@@ -23,14 +23,9 @@
     <RowConstraints maxHeight="93.0" minHeight="10.0" prefHeight="37.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <TextArea fx:id="messagesTextField" editable="false" prefHeight="455.0" prefWidth="259.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-         <GridPane.margin>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </GridPane.margin>
-      </TextArea>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3">
          <children>
-            <TextField fx:id="messageInputField" prefHeight="27.0" prefWidth="227.0">
+            <TextField fx:id="messageInputField" prefHeight="27.0" prefWidth="218.0">
                <HBox.margin>
                   <Insets />
                </HBox.margin>
@@ -238,5 +233,6 @@
             <Insets left="5.0" right="10.0" />
          </GridPane.margin>
       </GridPane>
+      <ListView fx:id="messagesListView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
    </children>
 </GridPane>

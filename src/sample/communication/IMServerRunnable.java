@@ -1,10 +1,16 @@
 package sample.communication;
 
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import sample.Singleton;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import static javafx.geometry.Pos.BASELINE_LEFT;
 
 /**
  * Created by Francisco José A. C. Souza on 23/12/2014.
