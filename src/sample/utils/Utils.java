@@ -30,7 +30,7 @@ public class Utils {
 
         if(fromNetwork){
             balloonVBox.setStyle(
-                    "-fx-background-image: url('sample/balloons/bubbleFromPartner.png'); " +
+                    "-fx-background-image: url('sample/images/balloons/bubbleFromPartner.png'); " +
                     "-fx-background-repeat: stretch; " +
                     "-fx-background-size: stretch; " +
                     "-fx-background-position: center;" +
@@ -39,7 +39,7 @@ public class Utils {
         }
         else{
             balloonVBox.setStyle(
-                    "-fx-background-image: url('sample/balloons/bubbleFromMe.png'); " +
+                    "-fx-background-image: url('sample/images/balloons/bubbleFromMe.png'); " +
                     "-fx-background-repeat: stretch; " +
                     "-fx-background-size: stretch; " +
                     "-fx-background-position: center;" +
