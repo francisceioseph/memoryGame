@@ -1,8 +1,6 @@
 package sample;
 
-import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -12,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -34,6 +33,10 @@ public class Controller implements Initializable{
     Button enviarButton;
     @FXML
     GridPane imagesGridPane;
+    @FXML
+    Label pontosPlayer1Label;
+    @FXML
+    Label pontosPlayer2Label;
 
     @FXML
     public void enviarMensagemOnButtonClick(ActionEvent actionEvent) {
@@ -62,7 +65,10 @@ public class Controller implements Initializable{
 
                     //Testa se as duas cartas possuem a mesma figura
                     if (lastOpenedCardImageId.equals(currentOpenedImageId)) {
-                        System.out.println("Match!");
+
+                        //Incrementa os pontos do player1 e mostra-os na respectiva label
+                        Singleton.INSTANCE.pontosPlayer1++;
+                        updatePontosPlayer1();
                         Singleton.INSTANCE.lastOpenedCard = null;
 
                     }
@@ -79,6 +85,10 @@ public class Controller implements Initializable{
                 }
             }
         }
+    }
+
+    private void updatePontosPlayer1(){
+        pontosPlayer1Label.setText(String.format("Pontos Player 1: %3d", Singleton.INSTANCE.pontosPlayer1));
     }
 
     private Timeline makeTimeline(final ImageView firstCard, final ImageView secondCard){
@@ -152,7 +162,9 @@ public class Controller implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Singleton.INSTANCE.balloons = FXCollections.observableArrayList();
+        Singleton.INSTANCE.pontosPlayer1 = 0;
 
         messagesListView.setItems(Singleton.INSTANCE.balloons);
+        this.updatePontosPlayer1();
     }
 }

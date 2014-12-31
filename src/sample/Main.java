@@ -28,7 +28,6 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         Singleton.INSTANCE.scene = new Scene(root);
-
         primaryStage.setTitle("Jogo da Memoria");
         primaryStage.setScene(Singleton.INSTANCE.scene);
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {

@@ -24,4 +24,5 @@ public enum Singleton {
     public ObservableList<HBox> balloons;
 
     public ImageView lastOpenedCard = null;
+    public int pontosPlayer1;
 }
