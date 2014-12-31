@@ -1,21 +1,16 @@
 package sample.communication;
 
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
+import javafx.concurrent.Task;
 import sample.Singleton;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import static javafx.geometry.Pos.BASELINE_LEFT;
-
 /**
  * Created by Francisco José A. C. Souza on 23/12/2014.
  */
-public class IMServerRunnable implements  Runnable {
+public class IMServerRunnable extends Task<Void>{
     private ServerSocket serverSocket;
     private Socket socket;
     private boolean alive;
@@ -33,7 +28,7 @@ public class IMServerRunnable implements  Runnable {
     }
 
     @Override
-    public void run() {
+    protected Void call() throws Exception {
         try {
             this.serverSocket = new ServerSocket(Singleton.INSTANCE.localIMServerPort);
 
@@ -55,5 +50,9 @@ public class IMServerRunnable implements  Runnable {
                 e.printStackTrace();
             }
         }
+
+        return null;
     }
+
+
 }

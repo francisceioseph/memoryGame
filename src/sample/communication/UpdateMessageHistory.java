@@ -1,52 +1,48 @@
 package sample.communication;
 
-import javafx.application.Platform;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
+import javafx.concurrent.Task;
 import sample.Singleton;
 import sample.utils.Utils;
 
 import java.io.DataInputStream;
-import java.io.IOException;
+import java.io.DataOutputStream;
 import java.net.Socket;
 
-import static javafx.geometry.Pos.BASELINE_LEFT;
-
 /**
- * Created by Francisco José A. C. Souza on 23/12/2014.
+ * Created by Francisco José A. C. Souza on 31/12/14.
  */
-public class UpdateMessageHistory implements Runnable {
-    private Socket socket;
-    private DataInputStream dataInputStream;
+public class UpdateMessageHistory extends Task<String> {
+    Socket socket;
 
     public UpdateMessageHistory(Socket socket){
-        try {
-            this.socket = socket;
-            this.dataInputStream = new DataInputStream(socket.getInputStream());
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+        this.socket = socket;
+    }
+    @Override
+    protected String call() throws Exception {
+        DataInputStream dataInputStream;
+        String message;
+
+        dataInputStream = new DataInputStream(socket.getInputStream());
+        message = dataInputStream.readUTF();
+
+        this.socket.close();
+        return message;
     }
 
     @Override
-    public void run() {
-        try {
-            final String messageIncoming = this.dataInputStream.readUTF();
+    protected void succeeded(){
+        super.succeeded();
 
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
+        String messageIncoming;
 
-                    Singleton.INSTANCE.balloons.add(Utils.makeBalloon(messageIncoming, true));
-                }
-            });
-            System.out.println(messageIncoming + " @" + this.socket.getRemoteSocketAddress().toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        messageIncoming = getValue();
+        Singleton.INSTANCE.balloons.add(Utils.makeBalloon(messageIncoming, true));
+    }
+
+    @Override
+    protected void failed(){
+        super.failed();
+
+        getException().printStackTrace();
     }
 }

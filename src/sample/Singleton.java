@@ -16,6 +16,6 @@ public enum Singleton {
 
     public String localIPAddress;
     public int localIMServerPort;
-
+    
     public ObservableList<HBox> balloons;
 }
