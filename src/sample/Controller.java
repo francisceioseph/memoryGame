@@ -69,6 +69,13 @@ public class Controller implements Initializable{
                         //Incrementa os pontos do player1 e mostra-os na respectiva label
                         Singleton.INSTANCE.pontosPlayer1++;
                         updatePontosPlayer1();
+
+                        targetImageView.getStyleClass().clear();
+                        targetImageView.getStyleClass().add("correct-card");
+
+                        Singleton.INSTANCE.lastOpenedCard.getStyleClass().clear();
+                        Singleton.INSTANCE.lastOpenedCard.getStyleClass().add("correct-card");
+
                         Singleton.INSTANCE.lastOpenedCard = null;
 
                     }
@@ -163,6 +170,10 @@ public class Controller implements Initializable{
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Singleton.INSTANCE.balloons = FXCollections.observableArrayList();
         Singleton.INSTANCE.pontosPlayer1 = 0;
+
+        for (Node node: imagesGridPane.getChildren()){
+            node.getStyleClass().addAll("imageview", "imageview:hover");
+        };
 
         messagesListView.setItems(Singleton.INSTANCE.balloons);
         this.updatePontosPlayer1();

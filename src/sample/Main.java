@@ -27,7 +27,9 @@ public class Main extends Application {
         bootIMServer();
 
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+
         Singleton.INSTANCE.scene = new Scene(root);
+        Singleton.INSTANCE.scene.getStylesheets().add(Main.class.getResource("style.css").toExternalForm());
         primaryStage.setTitle("Jogo da Memoria");
         primaryStage.setScene(Singleton.INSTANCE.scene);
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {

@@ -1,0 +1,13 @@
+.imageview{
+    -fx-border-color: black;
+    -fx-border-radius: 5.0 5.0 5.0 5.0;
+    -fx-effect: dropshadow(gaussian, rgba(76,175,80,1.0), 10, 0, 0, 0);
+}
+
+.imageview:hover{
+    -fx-effect: innershadow(gaussian, rgba(255,234,0,1.0), 30, 0, 0, 0);
+}
+
+.correct-card{
+    -fx-effect: innershadow(gaussian, rgba(128,203,196,1.0), 30, 0, 0, 0);
+}
