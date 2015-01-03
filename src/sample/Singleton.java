@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -23,8 +24,8 @@ public enum Singleton {
     INSTANCE;
     public Scene scene;
 
-    public String opponentIPAddress;
-    public int opponentIMServerPort;
+    public String opponentIPAddress = null;
+    public int opponentIMServerPort = 0;
 
     public String localIPAddress;
     public int localIMServerPort;
@@ -34,9 +35,10 @@ public enum Singleton {
 
     public ImageView lastOpenedCard = null;
     public int pontosPlayer1;
-    public int pontosPalyer2;
+    public int pontosPlayer2;
 
-    public Turn gameTurn;
+    public long startTime;
+    public boolean startSent = false;
 
     public int getGridPaneRowIndexForChildNode(Node targetNode){
         int rowIndex;
@@ -70,28 +72,18 @@ public enum Singleton {
         currentOpenedCardRowIndex = Singleton.INSTANCE.getGridPaneRowIndexForChildNode(targetImageView);
         currentOpenedCardColumnIndex = Singleton.INSTANCE.getGridPaneColumnIndexForChildNode(targetImageView);
         currentOpenedCardVectorCardsIdsIndex = currentOpenedCardRowIndex * 6 + currentOpenedCardColumnIndex;
+
         return Singleton.INSTANCE.imagesIds.get(currentOpenedCardVectorCardsIdsIndex);
 
     }
 
-    public Timeline makeTimeline(final ImageView firstCard, final ImageView secondCard){
-        final GridPane imageGrid = (GridPane) Singleton.INSTANCE.scene.lookup("#imagesGridPane");
-        EventHandler<ActionEvent> eventHandler;
-        KeyFrame keyFrame;
+    public void updatePontosPlayer1(){
+        Label pontosPlayer1Label = (Label) Singleton.INSTANCE.scene.lookup("#pontosPlayer1Label");
+        pontosPlayer1Label.setText(String.format("Pontos Player 1: %03d", Singleton.INSTANCE.pontosPlayer1));
+    }
 
-        eventHandler = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("Hora de Virar a Carta");
-
-                firstCard.setImage(new Image("sample/images/cards/cardback.png"));
-                secondCard.setImage(new Image("sample/images/cards/cardback.png"));
-                Singleton.INSTANCE.lastOpenedCard = null;
-                imageGrid.setDisable(false);
-            }
-        };
-
-        keyFrame = new KeyFrame(Duration.seconds(2), eventHandler);
-        return new Timeline(keyFrame);
+    public void updatePontosPlayer2(){
+        Label pontosPlayer2Label = (Label) Singleton.INSTANCE.scene.lookup("#pontosPlayer2Label");
+        pontosPlayer2Label.setText(String.format("Pontos Player 2: %03d", Singleton.INSTANCE.pontosPlayer2));
     }
 }

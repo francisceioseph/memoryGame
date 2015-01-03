@@ -11,3 +11,7 @@
 .correctcard{
     -fx-effect: innershadow(gaussian, rgba(188,64,53,1.0), 30, 0, 0, 0);
 }
+
+.correctopponentcard {
+    -fx-effect: innershadow(gaussian, rgba(2,119,189,1.0), 30, 0, 0, 0);
+}

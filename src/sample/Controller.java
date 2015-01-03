@@ -22,6 +22,9 @@ import sample.communication.SendCommandRunnable;
 
 import javax.swing.*;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable{
@@ -32,6 +35,8 @@ public class Controller implements Initializable{
     @FXML
     Button enviarButton;
     @FXML
+    Button conectarOponente;
+    @FXML
     GridPane imagesGridPane;
     @FXML
     Label pontosPlayer1Label;
@@ -39,8 +44,35 @@ public class Controller implements Initializable{
     Label pontosPlayer2Label;
 
     @FXML
+    Label ipAddressLabel;
+
+    @FXML
     public void enviarMensagemOnButtonClick(ActionEvent actionEvent) {
         enviarMensagem();
+    }
+
+
+    @FXML void connectOpponent(ActionEvent actionEvent){
+        Singleton.INSTANCE.opponentIPAddress = JOptionPane.showInputDialog(null, "Endereço IP do Oponente");
+        Singleton.INSTANCE.opponentIMServerPort = Integer.parseInt(JOptionPane.showInputDialog(null, "Número de Porta do IMServer Oponente"));
+
+        this.sendStart();
+
+        Singleton.INSTANCE.startSent = true;
+        this.conectarOponente.setDisable(true);
+        JOptionPane.showMessageDialog(null, "Conectando a oponente, por favor, aguarde!");
+    }
+
+    private void sendStart() {
+        SendCommandRunnable sendCommandRunnable;
+        Thread thread;
+        String message;
+
+        message = String.format("%s %s %d %s", GameCommands.START.toString(), Singleton.INSTANCE.localIPAddress, Singleton.INSTANCE.localIMServerPort, Long.toString(Singleton.INSTANCE.startTime));
+
+        sendCommandRunnable = new SendCommandRunnable(message);
+        thread = new Thread(sendCommandRunnable);
+        thread.start();
     }
 
     @FXML
@@ -80,7 +112,7 @@ public class Controller implements Initializable{
 
                         //Incrementa os pontos do player1 e mostra-os na respectiva label
                         Singleton.INSTANCE.pontosPlayer1++;
-                        updatePontosPlayer1();
+                        Singleton.INSTANCE.updatePontosPlayer1();
 
                         targetImageView.getStyleClass().clear();
                         targetImageView.getStyleClass().add("correctcard");
@@ -97,13 +129,34 @@ public class Controller implements Initializable{
                         Timeline timeline;
 
                         imagesGridPane.setDisable(true);
-                        timeline = Singleton.INSTANCE.makeTimeline(Singleton.INSTANCE.lastOpenedCard, targetImageView);
+                        timeline = this.makeTimeline(Singleton.INSTANCE.lastOpenedCard, targetImageView);
                         timeline.play();
 
                     }
                 }
             }
         }
+    }
+
+    private Timeline makeTimeline(final ImageView firstCard, final ImageView secondCard){
+        EventHandler<ActionEvent> eventHandler;
+        KeyFrame keyFrame;
+
+        eventHandler = new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                System.out.println("Hora de Virar a Carta");
+
+                GridPane imageGrid = (GridPane) Singleton.INSTANCE.scene.lookup("#imagesGridPane");
+                firstCard.setImage(new Image("sample/images/cards/cardback.png"));
+                secondCard.setImage(new Image("sample/images/cards/cardback.png"));
+                Singleton.INSTANCE.lastOpenedCard = null;
+                imageGrid.setDisable(true);
+            }
+        };
+
+        keyFrame = new KeyFrame(Duration.seconds(2), eventHandler);
+        return new Timeline(keyFrame);
     }
 
     private void sendFlip(int rowIndex, int columnIndex){
@@ -116,15 +169,7 @@ public class Controller implements Initializable{
         t.start();
     }
 
-    private void updatePontosPlayer1(){
-        pontosPlayer1Label.setText(String.format("Pontos Player 1: %03d", Singleton.INSTANCE.pontosPlayer1));
-    }
-
-
-
-
-
-    private void enviarMensagem(){
+   private void enviarMensagem(){
         if (!messageInputField.getText().isEmpty()) {
             Thread t = new Thread(new SendCommandRunnable(GameCommands.MSG + " " + messageInputField.getText()));
             t.start();
@@ -137,14 +182,23 @@ public class Controller implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Singleton.INSTANCE.startTime = System.currentTimeMillis();
+
         Singleton.INSTANCE.balloons = FXCollections.observableArrayList();
+
         Singleton.INSTANCE.pontosPlayer1 = 0;
+        Singleton.INSTANCE.pontosPlayer2 = 0;
+
+        imagesGridPane.setDisable(true);
+        messagesListView.setDisable(true);
+        messageInputField.setDisable(true);
+        enviarButton.setDisable(true);
 
         for (Node node: imagesGridPane.getChildren()){
             node.getStyleClass().addAll("imageview", "imageview:hover");
         };
 
         messagesListView.setItems(Singleton.INSTANCE.balloons);
-        this.updatePontosPlayer1();
+        ipAddressLabel.setText( String.format("Endereço IP: %s:%d", Singleton.INSTANCE.localIPAddress, Singleton.INSTANCE.localIMServerPort) );
     }
 }

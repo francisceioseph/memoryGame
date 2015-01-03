@@ -1,6 +1,7 @@
 package sample.communication;
 
 import javafx.concurrent.Task;
+import javafx.scene.control.Label;
 import sample.Singleton;
 
 import java.io.IOException;
@@ -30,9 +31,12 @@ public class IMServerRunnable extends Task<Void>{
     @Override
     protected Void call() throws Exception {
         try {
-            this.serverSocket = new ServerSocket(Singleton.INSTANCE.localIMServerPort);
 
-            Singleton.INSTANCE.localIPAddress = this.serverSocket.getLocalSocketAddress().toString();
+            this.serverSocket = new ServerSocket(Singleton.INSTANCE.localIMServerPort);
+            String ip = this.serverSocket.getLocalSocketAddress().toString();
+            int ipEndIndex = ip.indexOf("/");
+
+            Singleton.INSTANCE.localIPAddress = ip.substring(0, ipEndIndex);
             Singleton.INSTANCE.localIMServerPort = this.serverSocket.getLocalPort();
 
             System.out.println("IM Server no Ar...\n");

@@ -17,6 +17,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 public class Main extends Application {
     private static IMServerRunnable messagesServerRunnable;
@@ -30,6 +31,10 @@ public class Main extends Application {
 
         Singleton.INSTANCE.scene = new Scene(root);
         Singleton.INSTANCE.scene.getStylesheets().add(Main.class.getResource("style.css").toExternalForm());
+
+        Singleton.INSTANCE.updatePontosPlayer1();
+        Singleton.INSTANCE.updatePontosPlayer2();
+
         primaryStage.setTitle("Jogo da Memoria");
         primaryStage.setScene(Singleton.INSTANCE.scene);
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -54,8 +59,6 @@ public class Main extends Application {
         }
 
         Singleton.INSTANCE.localIMServerPort = Integer.parseInt(JOptionPane.showInputDialog(null, "Qual a porta do servidor local de mensagens?"));
-        Singleton.INSTANCE.opponentIPAddress = JOptionPane.showInputDialog(null, "Endereço IP do Oponente");
-        Singleton.INSTANCE.opponentIMServerPort = Integer.parseInt(JOptionPane.showInputDialog(null, "Número de Porta do IMServer Oponente"));
 
         Singleton.INSTANCE.imagesIds = new ArrayList<String>();
 
@@ -64,9 +67,9 @@ public class Main extends Application {
             Singleton.INSTANCE.imagesIds.add(String.format("sample/images/cards/card%02d.png", i));
         }
 
-        //Done when a connection is stabilished
-        Collections.shuffle(Singleton.INSTANCE.imagesIds);
+        Collections.shuffle(Singleton.INSTANCE.imagesIds, new Random());
     }
+
     private static void bootIMServer(){
         messagesServerRunnable = new IMServerRunnable();
         Thread messagesServerThread = new Thread(messagesServerRunnable);

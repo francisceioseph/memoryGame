@@ -45,7 +45,7 @@ public class SendCommandRunnable extends Task<Void> {
         command = this.messageToSent.substring(0, messageFirstBlankSpaceIndex);
 
         if(command.equals(GameCommands.MSG.toString()))
-            Singleton.INSTANCE.balloons.add(Utils.makeBalloon(this.messageToSent.substring(messageFirstBlankSpaceIndex), false));
+            Singleton.INSTANCE.balloons.add(Utils.makeBalloon(this.messageToSent.substring(messageFirstBlankSpaceIndex + 1), false));
     }
 
     @Override

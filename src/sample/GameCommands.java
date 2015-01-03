@@ -8,6 +8,5 @@ public enum GameCommands {
     START,
     DECK,
     FLIP,
-    TURN,
     MSG,
 }
