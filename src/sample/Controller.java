@@ -110,15 +110,18 @@ public class Controller implements Initializable{
                     //Testa se as duas cartas possuem a mesma figura
                     if (lastOpenedCardImageId.equals(currentOpenedImageId)) {
 
-                        //Incrementa os pontos do player1 e mostra-os na respectiva label
-                        Singleton.INSTANCE.pontosPlayer1++;
-                        Singleton.INSTANCE.updatePontosPlayer1();
+                        if (!Singleton.INSTANCE.rightPairs.contains(currentOpenedImageId)){
+                            //Incrementa os pontos do player1 e mostra-os na respectiva label
+                            Singleton.INSTANCE.rightPairs.add(currentOpenedImageId);
+                            Singleton.INSTANCE.pontosPlayer1++;
+                            Singleton.INSTANCE.updatePontosPlayer1();
 
-                        targetImageView.getStyleClass().clear();
-                        targetImageView.getStyleClass().add("correctcard");
+                            targetImageView.getStyleClass().clear();
+                            targetImageView.getStyleClass().add("correctcard");
 
-                        Singleton.INSTANCE.lastOpenedCard.getStyleClass().clear();
-                        Singleton.INSTANCE.lastOpenedCard.getStyleClass().add("correctcard");
+                            Singleton.INSTANCE.lastOpenedCard.getStyleClass().clear();
+                            Singleton.INSTANCE.lastOpenedCard.getStyleClass().add("correctcard");
+                        }
 
                         Singleton.INSTANCE.lastOpenedCard = null;
 
@@ -126,11 +129,13 @@ public class Controller implements Initializable{
                     //Se não possuirem a mesma figura, mostra ambas cartas por 2s e as vira de novo.
                     else {
 
-                        Timeline timeline;
+                        if (!Singleton.INSTANCE.rightPairs.contains(lastOpenedCardImageId) && !Singleton.INSTANCE.rightPairs.contains(currentOpenedImageId)) {
+                            Timeline timeline;
 
-                        imagesGridPane.setDisable(true);
-                        timeline = this.makeTimeline(Singleton.INSTANCE.lastOpenedCard, targetImageView);
-                        timeline.play();
+                            imagesGridPane.setDisable(true);
+                            timeline = this.makeTimeline(Singleton.INSTANCE.lastOpenedCard, targetImageView);
+                            timeline.play();
+                        }
 
                     }
                 }
@@ -183,6 +188,7 @@ public class Controller implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Singleton.INSTANCE.startTime = System.currentTimeMillis();
+        Singleton.INSTANCE.rightPairs = new ArrayList<String>();
 
         Singleton.INSTANCE.balloons = FXCollections.observableArrayList();
 

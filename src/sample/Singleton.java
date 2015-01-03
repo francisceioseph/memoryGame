@@ -31,6 +31,7 @@ public enum Singleton {
     public int localIMServerPort;
 
     public ArrayList<String> imagesIds;
+    public ArrayList<String> rightPairs;
     public ObservableList<HBox> balloons;
 
     public ImageView lastOpenedCard = null;

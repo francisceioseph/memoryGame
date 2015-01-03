@@ -89,12 +89,12 @@ public class ManageMessage extends Task<String> {
     }
 
     private void manageFlipMessages (String message){
-        GridPane imageGrid;
+        GridPane imagesGrid;
         String imagePath;
         ImageView targetImageView;
 
-        imageGrid = (GridPane) Singleton.INSTANCE.scene.lookup("#imagesGridPane");
-        imageGrid.setDisable(true);
+        imagesGrid = (GridPane) Singleton.INSTANCE.scene.lookup("#imagesGridPane");
+        imagesGrid.setDisable(true);
 
         targetImageView = this.getTargetImageView(message.split(" "));
         imagePath = Singleton.INSTANCE.getCardImagePath(targetImageView);
@@ -103,22 +103,32 @@ public class ManageMessage extends Task<String> {
         if(Singleton.INSTANCE.lastOpenedCard == null){
             Singleton.INSTANCE.lastOpenedCard = targetImageView;
         }
-        else if (imagePath.equals(Singleton.INSTANCE.getCardImagePath(Singleton.INSTANCE.lastOpenedCard))){
-            Singleton.INSTANCE.pontosPlayer2++;
+        else {
+            if (imagePath.equals(Singleton.INSTANCE.getCardImagePath(Singleton.INSTANCE.lastOpenedCard))) {
+                if (!Singleton.INSTANCE.rightPairs.contains(imagePath)) {
+                    //Incrementa os pontos do player1 e mostra-os na respectiva label
+                    Singleton.INSTANCE.rightPairs.add(imagePath);
+                    Singleton.INSTANCE.pontosPlayer2++;
+                    Singleton.INSTANCE.updatePontosPlayer2();
 
-            Singleton.INSTANCE.updatePontosPlayer2();
+                    targetImageView.getStyleClass().clear();
+                    targetImageView.getStyleClass().add("correctopponentcard");
 
-            targetImageView.getStyleClass().clear();
-            targetImageView.getStyleClass().add("correctopponentcard");
+                    Singleton.INSTANCE.lastOpenedCard.getStyleClass().clear();
+                    Singleton.INSTANCE.lastOpenedCard.getStyleClass().add("correctopponentcard");
+                }
 
-            Singleton.INSTANCE.lastOpenedCard.getStyleClass().clear();
-            Singleton.INSTANCE.lastOpenedCard.getStyleClass().add("correctopponentcard");
+                Singleton.INSTANCE.lastOpenedCard = null;
+            }
+            else {
+                if (!Singleton.INSTANCE.rightPairs.contains(Singleton.INSTANCE.getCardImagePath(Singleton.INSTANCE.lastOpenedCard)) && !Singleton.INSTANCE.rightPairs.contains(imagePath)) {
+                    Timeline timeline;
 
-            Singleton.INSTANCE.lastOpenedCard = null;
-        }else{
-            Timeline timeline;
-            timeline = this.makeTimeline(Singleton.INSTANCE.lastOpenedCard, targetImageView);
-            timeline.play();
+                    imagesGrid.setDisable(true);
+                    timeline = this.makeTimeline(Singleton.INSTANCE.lastOpenedCard, targetImageView);
+                    timeline.play();
+                }
+            }
         }
 
     }
