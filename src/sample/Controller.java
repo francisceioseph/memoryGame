@@ -18,7 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
-import sample.communication.IMSendMessageRunnable;
+import sample.communication.SendCommandRunnable;
 
 import javax.swing.*;
 import java.net.URL;
@@ -46,22 +46,34 @@ public class Controller implements Initializable{
     @FXML
     public void clickImagesGridPane(Event event){
         if(event.getTarget().getClass().equals(ImageView.class)){
+
             final ImageView targetImageView;
             String currentOpenedImageId;
 
             targetImageView = (ImageView) event.getTarget();
-            currentOpenedImageId = this.getCardImagePath(targetImageView);
+            currentOpenedImageId = Singleton.INSTANCE.getCardImagePath(targetImageView);
             targetImageView.setImage(new Image(currentOpenedImageId));
+
+            System.out.println(imagesGridPane.getChildren().indexOf(targetImageView));
 
             //Testa se é a primeira carta a ser aberta pelo usuário
             if(Singleton.INSTANCE.lastOpenedCard == null){
                 Singleton.INSTANCE.lastOpenedCard = targetImageView;
+
+                this.sendFlip(
+                        Singleton.INSTANCE.getGridPaneRowIndexForChildNode(targetImageView),
+                        Singleton.INSTANCE.getGridPaneColumnIndexForChildNode(targetImageView));
+
             }
             else {
                 //Caso não seja a primeira carta, testa se usuário não clicou na mesma carta.
                 if (!Singleton.INSTANCE.lastOpenedCard.equals(targetImageView)) {
                     String lastOpenedCardImageId;
-                    lastOpenedCardImageId = this.getCardImagePath(Singleton.INSTANCE.lastOpenedCard);
+                    lastOpenedCardImageId = Singleton.INSTANCE.getCardImagePath(Singleton.INSTANCE.lastOpenedCard);
+
+                    this.sendFlip(
+                            Singleton.INSTANCE.getGridPaneRowIndexForChildNode(targetImageView),
+                            Singleton.INSTANCE.getGridPaneColumnIndexForChildNode(targetImageView));
 
                     //Testa se as duas cartas possuem a mesma figura
                     if (lastOpenedCardImageId.equals(currentOpenedImageId)) {
@@ -71,10 +83,10 @@ public class Controller implements Initializable{
                         updatePontosPlayer1();
 
                         targetImageView.getStyleClass().clear();
-                        targetImageView.getStyleClass().add("correct-card");
+                        targetImageView.getStyleClass().add("correctcard");
 
                         Singleton.INSTANCE.lastOpenedCard.getStyleClass().clear();
-                        Singleton.INSTANCE.lastOpenedCard.getStyleClass().add("correct-card");
+                        Singleton.INSTANCE.lastOpenedCard.getStyleClass().add("correctcard");
 
                         Singleton.INSTANCE.lastOpenedCard = null;
 
@@ -85,7 +97,7 @@ public class Controller implements Initializable{
                         Timeline timeline;
 
                         imagesGridPane.setDisable(true);
-                        timeline = this.makeTimeline(Singleton.INSTANCE.lastOpenedCard, targetImageView);
+                        timeline = Singleton.INSTANCE.makeTimeline(Singleton.INSTANCE.lastOpenedCard, targetImageView);
                         timeline.play();
 
                     }
@@ -94,70 +106,27 @@ public class Controller implements Initializable{
         }
     }
 
+    private void sendFlip(int rowIndex, int columnIndex){
+        String flipMessage;
+        SendCommandRunnable flipRunnable;
+
+        flipMessage = String.format("FLIP %d %d", rowIndex, columnIndex);
+        flipRunnable = new SendCommandRunnable(flipMessage);
+        Thread t = new Thread(flipRunnable);
+        t.start();
+    }
+
     private void updatePontosPlayer1(){
-        pontosPlayer1Label.setText(String.format("Pontos Player 1: %3d", Singleton.INSTANCE.pontosPlayer1));
+        pontosPlayer1Label.setText(String.format("Pontos Player 1: %03d", Singleton.INSTANCE.pontosPlayer1));
     }
 
-    private Timeline makeTimeline(final ImageView firstCard, final ImageView secondCard){
-        EventHandler<ActionEvent> eventHandler;
-        KeyFrame keyFrame;
 
-        eventHandler = new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("Hora de Virar a Carta");
 
-                firstCard.setImage(new Image("sample/images/cards/cardback.png"));
-                secondCard.setImage(new Image("sample/images/cards/cardback.png"));
-                Singleton.INSTANCE.lastOpenedCard = null;
 
-                imagesGridPane.setDisable(false);
-            }
-        };
-
-        keyFrame = new KeyFrame(Duration.seconds(2), eventHandler);
-        return new Timeline(keyFrame);
-    }
-
-    private String getCardImagePath(ImageView targetImageView){
-        int currentOpenedCardRowIndex;
-        int currentOpenedCardColumnIndex;
-        int currentOpenedCardVectorCardsIdsIndex;
-
-        currentOpenedCardRowIndex = this.getGridPaneRowIndexForChildNode(targetImageView);
-        currentOpenedCardColumnIndex = this.getGridPaneColumnIndexForChildNode(targetImageView);
-        currentOpenedCardVectorCardsIdsIndex = currentOpenedCardRowIndex * 6 + currentOpenedCardColumnIndex;
-        return Singleton.INSTANCE.imagesIds.get(currentOpenedCardVectorCardsIdsIndex);
-
-    }
-
-    private int getGridPaneRowIndexForChildNode(Node targetNode){
-        int rowIndex;
-
-        try {
-            rowIndex = GridPane.getRowIndex(targetNode).intValue();
-        }catch (NullPointerException nullPointerException){
-            rowIndex = 0;
-        }
-
-        return rowIndex;
-    }
-
-    private int getGridPaneColumnIndexForChildNode(Node targetNode){
-        int columnIndex;
-
-        try {
-            columnIndex = GridPane.getColumnIndex(targetNode).intValue();
-        }catch (NullPointerException nullPointerException){
-            columnIndex = 0;
-        }
-
-        return columnIndex;
-    }
 
     private void enviarMensagem(){
         if (!messageInputField.getText().isEmpty()) {
-            Thread t = new Thread(new IMSendMessageRunnable(messageInputField.getText()));
+            Thread t = new Thread(new SendCommandRunnable(GameCommands.MSG + " " + messageInputField.getText()));
             t.start();
             this.messageInputField.clear();
         }

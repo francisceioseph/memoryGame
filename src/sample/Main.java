@@ -64,8 +64,8 @@ public class Main extends Application {
             Singleton.INSTANCE.imagesIds.add(String.format("sample/images/cards/card%02d.png", i));
         }
 
+        //Done when a connection is stabilished
         Collections.shuffle(Singleton.INSTANCE.imagesIds);
-
     }
     private static void bootIMServer(){
         messagesServerRunnable = new IMServerRunnable();

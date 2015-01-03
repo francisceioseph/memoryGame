@@ -1,7 +1,5 @@
 package sample.communication;
 
-import sample.Controller;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -30,7 +28,7 @@ public class IMServerRunnable implements  Runnable {
         while(true){
             try {
                 socket = serverSocket.accept();
-                Thread updateMessagesHistory = new Thread(new UpdateMessageHistory(this.socket));
+                Thread updateMessagesHistory = new Thread(new ManageMessage(this.socket));
                 updateMessagesHistory.start();
             } catch (IOException e) {
                 e.printStackTrace();

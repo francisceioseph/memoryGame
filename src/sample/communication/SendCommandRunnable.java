@@ -1,6 +1,7 @@
 package sample.communication;
 
 import javafx.concurrent.Task;
+import sample.GameCommands;
 import sample.Singleton;
 import sample.utils.Utils;
 
@@ -11,11 +12,11 @@ import java.net.Socket;
 /**
  * Created by Francisco José A. C. Souza on 23/12/2014.
  */
-public class IMSendMessageRunnable extends Task<Void> {
+public class SendCommandRunnable extends Task<Void> {
     Socket socketToServer;
     String messageToSent;
 
-    public IMSendMessageRunnable(String message) {
+    public SendCommandRunnable(String message) {
         this.messageToSent = message;
     }
 
@@ -26,6 +27,7 @@ public class IMSendMessageRunnable extends Task<Void> {
             DataOutputStream dataOutputStream = new DataOutputStream(this.socketToServer.getOutputStream());
             dataOutputStream.writeUTF(this.messageToSent);
 
+            dataOutputStream.close();
             this.socketToServer.close();
         }catch (IOException e){
             e.printStackTrace();
@@ -37,7 +39,13 @@ public class IMSendMessageRunnable extends Task<Void> {
     @Override
     protected void succeeded(){
         super.succeeded();
-        Singleton.INSTANCE.balloons.add(Utils.makeBalloon(this.messageToSent, false));
+        int messageFirstBlankSpaceIndex;
+        String command;
+        messageFirstBlankSpaceIndex = this.messageToSent.indexOf(" ");
+        command = this.messageToSent.substring(0, messageFirstBlankSpaceIndex);
+
+        if(command.equals(GameCommands.MSG.toString()))
+            Singleton.INSTANCE.balloons.add(Utils.makeBalloon(this.messageToSent.substring(messageFirstBlankSpaceIndex), false));
     }
 
     @Override
@@ -45,5 +53,6 @@ public class IMSendMessageRunnable extends Task<Void> {
         super.failed();
 
         getException().printStackTrace();
+
     }
 }

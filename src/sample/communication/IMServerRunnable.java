@@ -44,7 +44,7 @@ public class IMServerRunnable extends Task<Void>{
         while(alive){
             try {
                 socket = serverSocket.accept();
-                Thread updateMessagesHistory = new Thread(new UpdateMessageHistory(this.socket));
+                Thread updateMessagesHistory = new Thread(new ManageMessage(this.socket));
                 updateMessagesHistory.start();
             } catch (IOException e) {
                 e.printStackTrace();

@@ -8,6 +8,6 @@
     -fx-effect: innershadow(gaussian, rgba(255,234,0,1.0), 30, 0, 0, 0);
 }
 
-.correct-card{
-    -fx-effect: innershadow(gaussian, rgba(128,203,196,1.0), 30, 0, 0, 0);
+.correctcard{
+    -fx-effect: innershadow(gaussian, rgba(188,64,53,1.0), 30, 0, 0, 0);
 }
