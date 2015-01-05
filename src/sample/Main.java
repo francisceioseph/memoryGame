@@ -2,8 +2,6 @@ package sample;
 
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,7 +11,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import sample.communication.IMServerRunnable;
 
-import javax.swing.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -59,7 +56,7 @@ public class Main extends Application {
             Singleton.INSTANCE.localIPAddress = "127.0.0.1";
         }
 
-        Singleton.INSTANCE.localIMServerPort = Integer.parseInt(Dialogs.showInputDialog(null, "Qual a porta do servidor local de mensagens?"));
+        Singleton.INSTANCE.localIMServerPort = Integer.parseInt(Dialogs.showInputDialog(null, "Qual a porta do servidor local de mensagens?", "Configuração de Porta do Servidor Local", "Memory Game" ));
 
         //Remember that JavaFX + Swing Don't work at macosx
         //Singleton.INSTANCE.localIMServerPort = Integer.parseInt(JOptionPane.showInputDialog(null, "Qual a porta do servidor local de mensagens?"));

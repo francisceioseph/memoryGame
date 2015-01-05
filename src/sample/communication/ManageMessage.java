@@ -20,7 +20,6 @@ import sample.utils.Utils;
 
 import java.io.DataInputStream;
 import java.net.Socket;
-import java.util.ArrayList;
 
 /**
  * Created by Francisco José A. C. Souza on 31/12/14.

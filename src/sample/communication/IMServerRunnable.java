@@ -1,7 +1,6 @@
 package sample.communication;
 
 import javafx.concurrent.Task;
-import javafx.scene.control.Label;
 import sample.Singleton;
 
 import java.io.IOException;

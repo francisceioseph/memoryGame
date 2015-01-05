@@ -17,11 +17,8 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 import sample.communication.SendCommandRunnable;
 
-import javax.swing.*;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable{
@@ -50,8 +47,8 @@ public class Controller implements Initializable{
 
 
     @FXML void connectOpponent(ActionEvent actionEvent){
-        Singleton.INSTANCE.opponentIPAddress = Dialogs.showInputDialog(null, "Endereço IP do Oponente");
-        Singleton.INSTANCE.opponentIMServerPort = Integer.parseInt(Dialogs.showInputDialog(null, "Número de Porta do IMServer Oponente"));
+        Singleton.INSTANCE.opponentIPAddress = Dialogs.showInputDialog(null, "Endereço IP do Oponente", "Configuração de IP do Oponente", "Memory Game");
+        Singleton.INSTANCE.opponentIMServerPort = Integer.parseInt(Dialogs.showInputDialog(null, "Número de Porta do IMServer Oponente", "Configuração de Porta do Oponente","Memory Game"));
 
 
 //        Singleton.INSTANCE.opponentIPAddress = JOptionPane.showInputDialog(null, "Endereço IP do Oponente");
@@ -61,7 +58,7 @@ public class Controller implements Initializable{
 
         Singleton.INSTANCE.startSent = true;
         this.conectarOponente.setDisable(true);
-        Dialogs.showInformationDialog(null, "Conectando a oponente, por favor, aguarde!");
+        Dialogs.showInformationDialog(null, "Conectando a oponente, por favor, aguarde!", "Conectando...", "Memory Game");
 
 //        JOptionPane.showMessageDialog(null, "Conectando a oponente, por favor, aguarde!");
     }
@@ -135,7 +132,7 @@ public class Controller implements Initializable{
                         if (!Singleton.INSTANCE.rightPairs.contains(lastOpenedCardImageId) && !Singleton.INSTANCE.rightPairs.contains(currentOpenedImageId)) {
                             Timeline timeline;
 
-                            imagesGridPane.setDisable(true);
+                            this.imagesGridPane.setDisable(true);
                             timeline = this.makeTimeline(Singleton.INSTANCE.lastOpenedCard, targetImageView);
                             timeline.play();
                         }
@@ -184,7 +181,7 @@ public class Controller implements Initializable{
             this.messageInputField.clear();
         }
         else{
-            Dialogs.showInformationDialog(null, "Nenhuma mensagem a ser enviada.");
+            Dialogs.showWarningDialog(null, "Campo de texto a ser enviado está vazio.", "Mensagens", "Memory Game");
 
 //            JOptionPane.showMessageDialog(null, "Nenhuma mensagem a ser enviada.");
         }
@@ -200,16 +197,16 @@ public class Controller implements Initializable{
         Singleton.INSTANCE.pontosPlayer1 = 0;
         Singleton.INSTANCE.pontosPlayer2 = 0;
 
-        imagesGridPane.setDisable(true);
-        messagesListView.setDisable(true);
-        messageInputField.setDisable(true);
-        enviarButton.setDisable(true);
+        this.imagesGridPane.setDisable(true);
+        this.messagesListView.setDisable(true);
+        this.messageInputField.setDisable(true);
+        this.enviarButton.setDisable(true);
 
-        for (Node node: imagesGridPane.getChildren()){
+        for (Node node: this.imagesGridPane.getChildren()){
             node.getStyleClass().addAll("imageview", "imageview:hover");
-        };
+        }
 
-        messagesListView.setItems(Singleton.INSTANCE.balloons);
-        ipAddressLabel.setText( String.format("Endereço IP: %s:%d", Singleton.INSTANCE.localIPAddress, Singleton.INSTANCE.localIMServerPort) );
+        this.messagesListView.setItems(Singleton.INSTANCE.balloons);
+        this.ipAddressLabel.setText( String.format("Endereço IP: %s:%d", Singleton.INSTANCE.localIPAddress, Singleton.INSTANCE.localIMServerPort) );
     }
 }
