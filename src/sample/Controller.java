@@ -9,10 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -53,14 +50,20 @@ public class Controller implements Initializable{
 
 
     @FXML void connectOpponent(ActionEvent actionEvent){
-        Singleton.INSTANCE.opponentIPAddress = JOptionPane.showInputDialog(null, "Endereço IP do Oponente");
-        Singleton.INSTANCE.opponentIMServerPort = Integer.parseInt(JOptionPane.showInputDialog(null, "Número de Porta do IMServer Oponente"));
+        Singleton.INSTANCE.opponentIPAddress = Dialogs.showInputDialog(null, "Endereço IP do Oponente");
+        Singleton.INSTANCE.opponentIMServerPort = Integer.parseInt(Dialogs.showInputDialog(null, "Número de Porta do IMServer Oponente"));
+
+
+//        Singleton.INSTANCE.opponentIPAddress = JOptionPane.showInputDialog(null, "Endereço IP do Oponente");
+//        Singleton.INSTANCE.opponentIMServerPort = Integer.parseInt(JOptionPane.showInputDialog(null, "Número de Porta do IMServer Oponente"));
 
         this.sendStart();
 
         Singleton.INSTANCE.startSent = true;
         this.conectarOponente.setDisable(true);
-        JOptionPane.showMessageDialog(null, "Conectando a oponente, por favor, aguarde!");
+        Dialogs.showInformationDialog(null, "Conectando a oponente, por favor, aguarde!");
+
+//        JOptionPane.showMessageDialog(null, "Conectando a oponente, por favor, aguarde!");
     }
 
     private void sendStart() {
@@ -181,7 +184,9 @@ public class Controller implements Initializable{
             this.messageInputField.clear();
         }
         else{
-            JOptionPane.showMessageDialog(null, "Nenhuma mensagem a ser enviada.");
+            Dialogs.showInformationDialog(null, "Nenhuma mensagem a ser enviada.");
+
+//            JOptionPane.showMessageDialog(null, "Nenhuma mensagem a ser enviada.");
         }
     }
 
