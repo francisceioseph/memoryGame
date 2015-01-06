@@ -48,32 +48,16 @@ public class Controller implements Initializable{
 
     @FXML void connectOpponent(ActionEvent actionEvent){
         Singleton.INSTANCE.opponentIPAddress = Dialogs.showInputDialog(null, "Endereço IP do Oponente", "Configuração de IP do Oponente", "Memory Game");
-        Singleton.INSTANCE.opponentIMServerPort = Integer.parseInt(Dialogs.showInputDialog(null, "Número de Porta do IMServer Oponente", "Configuração de Porta do Oponente","Memory Game"));
+        Singleton.INSTANCE.opponentIMServerPort = Singleton.INSTANCE.getPortNumber();
 
-
-//        Singleton.INSTANCE.opponentIPAddress = JOptionPane.showInputDialog(null, "Endereço IP do Oponente");
-//        Singleton.INSTANCE.opponentIMServerPort = Integer.parseInt(JOptionPane.showInputDialog(null, "Número de Porta do IMServer Oponente"));
-
-        this.sendStart();
+        Singleton.INSTANCE.sendStart();
 
         Singleton.INSTANCE.startSent = true;
         this.conectarOponente.setDisable(true);
         Dialogs.showInformationDialog(null, "Conectando a oponente, por favor, aguarde!", "Conectando...", "Memory Game");
-
-//        JOptionPane.showMessageDialog(null, "Conectando a oponente, por favor, aguarde!");
     }
 
-    private void sendStart() {
-        SendCommandRunnable sendCommandRunnable;
-        Thread thread;
-        String message;
 
-        message = String.format("%s %s %d %s", GameCommands.START.toString(), Singleton.INSTANCE.localIPAddress, Singleton.INSTANCE.localIMServerPort, Long.toString(Singleton.INSTANCE.startTime));
-
-        sendCommandRunnable = new SendCommandRunnable(message);
-        thread = new Thread(sendCommandRunnable);
-        thread.start();
-    }
 
     @FXML
     public void clickImagesGridPane(Event event){
@@ -84,15 +68,16 @@ public class Controller implements Initializable{
 
             targetImageView = (ImageView) event.getTarget();
             currentOpenedImageId = Singleton.INSTANCE.getCardImagePath(targetImageView);
-            targetImageView.setImage(new Image(currentOpenedImageId));
 
-            System.out.println(imagesGridPane.getChildren().indexOf(targetImageView));
+            if(!Singleton.INSTANCE.rightPairs.contains(currentOpenedImageId)) {
+                targetImageView.setImage(new Image(currentOpenedImageId));
+            }
 
             //Testa se é a primeira carta a ser aberta pelo usuário
             if(Singleton.INSTANCE.lastOpenedCard == null){
                 Singleton.INSTANCE.lastOpenedCard = targetImageView;
 
-                this.sendFlip(
+                Singleton.INSTANCE.sendFlip(
                         Singleton.INSTANCE.getGridPaneRowIndexForChildNode(targetImageView),
                         Singleton.INSTANCE.getGridPaneColumnIndexForChildNode(targetImageView));
 
@@ -103,7 +88,7 @@ public class Controller implements Initializable{
                     String lastOpenedCardImageId;
                     lastOpenedCardImageId = Singleton.INSTANCE.getCardImagePath(Singleton.INSTANCE.lastOpenedCard);
 
-                    this.sendFlip(
+                    Singleton.INSTANCE.sendFlip(
                             Singleton.INSTANCE.getGridPaneRowIndexForChildNode(targetImageView),
                             Singleton.INSTANCE.getGridPaneColumnIndexForChildNode(targetImageView));
 
@@ -116,9 +101,11 @@ public class Controller implements Initializable{
                             Singleton.INSTANCE.pontosPlayer1++;
                             Singleton.INSTANCE.updatePontosPlayer1();
 
+                            targetImageView.setImage(new Image("sample/images/cards/hit.png"));
                             targetImageView.getStyleClass().clear();
                             targetImageView.getStyleClass().add("correctcard");
 
+                            Singleton.INSTANCE.lastOpenedCard.setImage(new Image("sample/images/cards/hit.png"));
                             Singleton.INSTANCE.lastOpenedCard.getStyleClass().clear();
                             Singleton.INSTANCE.lastOpenedCard.getStyleClass().add("correctcard");
                         }
@@ -164,17 +151,7 @@ public class Controller implements Initializable{
         return new Timeline(keyFrame);
     }
 
-    private void sendFlip(int rowIndex, int columnIndex){
-        String flipMessage;
-        SendCommandRunnable flipRunnable;
-
-        flipMessage = String.format("FLIP %d %d", rowIndex, columnIndex);
-        flipRunnable = new SendCommandRunnable(flipMessage);
-        Thread t = new Thread(flipRunnable);
-        t.start();
-    }
-
-   private void enviarMensagem(){
+    private void enviarMensagem(){
         if (!messageInputField.getText().isEmpty()) {
             Thread t = new Thread(new SendCommandRunnable(GameCommands.MSG + " " + messageInputField.getText()));
             t.start();
@@ -182,8 +159,6 @@ public class Controller implements Initializable{
         }
         else{
             Dialogs.showWarningDialog(null, "Campo de texto a ser enviado está vazio.", "Mensagens", "Memory Game");
-
-//            JOptionPane.showMessageDialog(null, "Nenhuma mensagem a ser enviada.");
         }
     }
 

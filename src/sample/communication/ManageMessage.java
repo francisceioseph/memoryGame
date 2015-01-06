@@ -97,7 +97,9 @@ public class ManageMessage extends Task<String> {
 
         targetImageView = this.getTargetImageView(message.split(" "));
         imagePath = Singleton.INSTANCE.getCardImagePath(targetImageView);
-        targetImageView.setImage(new Image(imagePath));
+
+        if(!Singleton.INSTANCE.rightPairs.contains(imagePath))
+            targetImageView.setImage(new Image(imagePath));
 
         if(Singleton.INSTANCE.lastOpenedCard == null){
             Singleton.INSTANCE.lastOpenedCard = targetImageView;
@@ -110,9 +112,11 @@ public class ManageMessage extends Task<String> {
                     Singleton.INSTANCE.pontosPlayer2++;
                     Singleton.INSTANCE.updatePontosPlayer2();
 
-                    targetImageView.getStyleClass().clear();
+                    targetImageView.setImage(new Image("sample/images/cards/hit.png"));
+                            targetImageView.getStyleClass().clear();
                     targetImageView.getStyleClass().add("correctopponentcard");
 
+                    Singleton.INSTANCE.lastOpenedCard.setImage(new Image("sample/images/cards/hit.png"));
                     Singleton.INSTANCE.lastOpenedCard.getStyleClass().clear();
                     Singleton.INSTANCE.lastOpenedCard.getStyleClass().add("correctopponentcard");
                 }
@@ -145,12 +149,15 @@ public class ManageMessage extends Task<String> {
         Singleton.INSTANCE.opponentIPAddress = commandTokens[0];
         Singleton.INSTANCE.opponentIMServerPort = Integer.parseInt(commandTokens[1]);
         opponentStartTime = Long.parseLong(commandTokens[2]);
+        Singleton.INSTANCE.opponentName = commandTokens[3];
+
+        Singleton.INSTANCE.updatePontosPlayer2();
 
         if(!Singleton.INSTANCE.startSent)
-            this.sendStart();
+            Singleton.INSTANCE.sendStart();
 
         if(Singleton.INSTANCE.startTime < opponentStartTime){
-            this.sendDeck();
+            Singleton.INSTANCE.sendDeck();
             this.unlockGraphicInterface();
         }
         else{
@@ -166,32 +173,6 @@ public class ManageMessage extends Task<String> {
         for (String cardPath : deck){
             Singleton.INSTANCE.imagesIds.add(cardPath);
         }
-    }
-    private void sendDeck(){
-        String message;
-        SendCommandRunnable sendCommandRunnable;
-        Thread thread;
-
-        message = String.format("%s ", GameCommands.DECK.toString());
-        for(String cardPath : Singleton.INSTANCE.imagesIds){
-            message = message.concat(String.format("%s ", cardPath));
-        }
-
-        sendCommandRunnable = new SendCommandRunnable(message);
-        thread = new Thread(sendCommandRunnable);
-        thread.start();
-    }
-
-    private void sendStart() {
-        SendCommandRunnable sendCommandRunnable;
-        Thread thread;
-        String message;
-
-        message = String.format("%s %s %d %s", GameCommands.START.toString(), Singleton.INSTANCE.localIPAddress, Singleton.INSTANCE.localIMServerPort, Long.toString(Singleton.INSTANCE.startTime));
-
-        sendCommandRunnable = new SendCommandRunnable(message);
-        thread = new Thread(sendCommandRunnable);
-        thread.start();
     }
 
     private void unlockMessageInterface(){

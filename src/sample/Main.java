@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Dialogs;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import sample.communication.IMServerRunnable;
+import sample.communication.CommandServerRunnable;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.Random;
 
 public class Main extends Application {
-    private static IMServerRunnable messagesServerRunnable;
+    private static CommandServerRunnable messagesServerRunnable;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -35,6 +35,7 @@ public class Main extends Application {
 
         primaryStage.setTitle("Jogo da Memoria");
         primaryStage.setScene(Singleton.INSTANCE.scene);
+
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {
@@ -56,11 +57,8 @@ public class Main extends Application {
             Singleton.INSTANCE.localIPAddress = "127.0.0.1";
         }
 
-        Singleton.INSTANCE.localIMServerPort = Integer.parseInt(Dialogs.showInputDialog(null, "Qual a porta do servidor local de mensagens?", "Configuração de Porta do Servidor Local", "Memory Game" ));
-
-        //Remember that JavaFX + Swing Don't work at macosx
-        //Singleton.INSTANCE.localIMServerPort = Integer.parseInt(JOptionPane.showInputDialog(null, "Qual a porta do servidor local de mensagens?"));
-
+        Singleton.INSTANCE.localPlayerName = Dialogs.showInputDialog(null, "Qual o seu nome?", "Seja Bem vindo!", "Memory Game");
+        Singleton.INSTANCE.localIMServerPort = Singleton.INSTANCE.getPortNumber();
         Singleton.INSTANCE.imagesIds = new ArrayList<String>();
 
         for (int i = 1; i<13; i++){
@@ -72,7 +70,7 @@ public class Main extends Application {
     }
 
     private static void bootIMServer(){
-        messagesServerRunnable = new IMServerRunnable();
+        messagesServerRunnable = new CommandServerRunnable();
         Thread messagesServerThread = new Thread(messagesServerRunnable);
         messagesServerThread.start();
     }

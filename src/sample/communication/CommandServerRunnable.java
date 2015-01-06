@@ -10,12 +10,12 @@ import java.net.Socket;
 /**
  * Created by Francisco José A. C. Souza on 23/12/2014.
  */
-public class IMServerRunnable extends Task<Void>{
+public class CommandServerRunnable extends Task<Void>{
     private ServerSocket serverSocket;
     private Socket socket;
     private boolean alive;
 
-    public IMServerRunnable(){
+    public CommandServerRunnable(){
         this.alive = true;
     }
 
