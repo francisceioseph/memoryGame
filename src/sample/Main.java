@@ -50,14 +50,11 @@ public class Main extends Application {
 
 
     private static void setup(){
-        try {
-            Singleton.INSTANCE.localIPAddress = InetAddress.getLocalHost().getHostAddress();
 
-        } catch (UnknownHostException e) {
-            Singleton.INSTANCE.localIPAddress = "127.0.0.1";
-        }
 
         Singleton.INSTANCE.localPlayerName = Dialogs.showInputDialog(null, "Qual o seu nome?", "Seja Bem vindo!", "Memory Game");
+
+        Singleton.INSTANCE.localIPAddress = Dialogs.showInputDialog(null, "Qual o seu endereço IP??", "Seja Bem vindo!", "Memory Game");
         Singleton.INSTANCE.localIMServerPort = Singleton.INSTANCE.getPortNumber();
         Singleton.INSTANCE.imagesIds = new ArrayList<String>();
 

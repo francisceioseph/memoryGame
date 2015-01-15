@@ -32,10 +32,6 @@ public class CommandServerRunnable extends Task<Void>{
         try {
 
             this.serverSocket = new ServerSocket(Singleton.INSTANCE.localIMServerPort);
-            String ip = this.serverSocket.getLocalSocketAddress().toString();
-            int ipEndIndex = ip.indexOf("/");
-
-            Singleton.INSTANCE.localIPAddress = ip.substring(0, ipEndIndex);
             Singleton.INSTANCE.localIMServerPort = this.serverSocket.getLocalPort();
 
             System.out.println("IM Server no Ar...\n");

@@ -139,6 +139,8 @@ public enum Singleton {
                 Long.toString(Singleton.INSTANCE.startTime),
                 Singleton.INSTANCE.localPlayerName);
 
+        System.out.println(message);
+
         sendCommandRunnable = new SendCommandRunnable(message);
         thread = new Thread(sendCommandRunnable);
         thread.start();
