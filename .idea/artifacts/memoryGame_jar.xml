@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="memoryGame:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/memoryGame_jar</output-path>
+    <root id="archive" name="memoryGame.jar">
+      <element id="module-output" name="memoryGame" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javafx-dialogs-0.0.4.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
