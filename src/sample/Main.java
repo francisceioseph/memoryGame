@@ -6,13 +6,11 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Dialogs;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import sample.communication.CommandServerRunnable;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -52,9 +50,11 @@ public class Main extends Application {
     private static void setup(){
 
 
-        Singleton.INSTANCE.localPlayerName = Dialogs.showInputDialog(null, "Qual o seu nome?", "Seja Bem vindo!", "Memory Game");
+        Singleton.INSTANCE.localPlayerName = JOptionPane.showInputDialog(null, 
+                "Qual o seu nome?");
 
-        Singleton.INSTANCE.localIPAddress = Dialogs.showInputDialog(null, "Qual o seu endereço IP??", "Seja Bem vindo!", "Memory Game");
+        Singleton.INSTANCE.localIPAddress = JOptionPane.showInputDialog(null,
+                "Qual o seu endereço IP??");
         Singleton.INSTANCE.localIMServerPort = Singleton.INSTANCE.getPortNumber();
         Singleton.INSTANCE.imagesIds = new ArrayList<String>();
 

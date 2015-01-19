@@ -2,6 +2,7 @@ package sample;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
@@ -9,16 +10,22 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
+import sample.communication.GameCommands;
 import sample.communication.SendCommandRunnable;
 
+import javax.swing.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable{
@@ -47,14 +54,15 @@ public class Controller implements Initializable{
 
 
     @FXML void connectOpponent(ActionEvent actionEvent){
-        Singleton.INSTANCE.opponentIPAddress = Dialogs.showInputDialog(null, "Endereço IP do Oponente", "Configuração de IP do Oponente", "Memory Game");
+        Singleton.INSTANCE.opponentIPAddress = JOptionPane.showInputDialog(null,
+                "Endereço IP do Oponente");
         Singleton.INSTANCE.opponentIMServerPort = Singleton.INSTANCE.getPortNumber();
 
         Singleton.INSTANCE.sendStart();
 
-        Singleton.INSTANCE.startSent = true;
         this.conectarOponente.setDisable(true);
-        Dialogs.showInformationDialog(null, "Conectando a oponente, por favor, aguarde!", "Conectando...", "Memory Game");
+        JOptionPane.showMessageDialog(null,
+                "Conectando a oponente, por favor, aguarde!");
     }
 
 
@@ -101,15 +109,16 @@ public class Controller implements Initializable{
                             Singleton.INSTANCE.pontosPlayer1++;
                             Singleton.INSTANCE.updatePontosPlayer1();
 
-                            targetImageView.setImage(new Image("sample/images/cards/hit.png"));
+                            targetImageView.setImage(new Image("sample/images/cards/blank.png"));
                             targetImageView.getStyleClass().clear();
                             targetImageView.getStyleClass().add("correctcard");
 
-                            Singleton.INSTANCE.lastOpenedCard.setImage(new Image("sample/images/cards/hit.png"));
+                            Singleton.INSTANCE.lastOpenedCard.setImage(new Image("sample/images/cards/blank.png"));
                             Singleton.INSTANCE.lastOpenedCard.getStyleClass().clear();
                             Singleton.INSTANCE.lastOpenedCard.getStyleClass().add("correctcard");
                         }
 
+                        Singleton.INSTANCE.checkWinner();
                         Singleton.INSTANCE.lastOpenedCard = null;
 
                     }
@@ -158,13 +167,17 @@ public class Controller implements Initializable{
             this.messageInputField.clear();
         }
         else{
-            Dialogs.showWarningDialog(null, "Campo de texto a ser enviado está vazio.", "Mensagens", "Memory Game");
+            JOptionPane.showMessageDialog(null,
+                    "Campo de texto a ser enviado está vazio.");
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Singleton.INSTANCE.startTime = System.currentTimeMillis();
+        Random random = new Random();
+        random.setSeed(System.currentTimeMillis());
+
+        Singleton.INSTANCE.magicNumber = random.nextLong();
         Singleton.INSTANCE.rightPairs = new ArrayList<String>();
 
         Singleton.INSTANCE.balloons = FXCollections.observableArrayList();

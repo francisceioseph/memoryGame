@@ -1,11 +1,7 @@
 <component name="libraryTable">
   <library name="javafx-dialogs-0.0.4">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/javafx-dialogs-0.0.4.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC />
-    <SOURCES>
-      <root url="jar://$PROJECT_DIR$/lib/javafx-dialogs-0.0.4.jar!/" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>

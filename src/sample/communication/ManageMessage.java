@@ -14,12 +14,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
-import sample.GameCommands;
 import sample.Singleton;
 import sample.utils.Utils;
 
 import java.io.DataInputStream;
 import java.net.Socket;
+import java.util.Random;
 
 /**
  * Created by Francisco José A. C. Souza on 31/12/14.
@@ -112,15 +112,16 @@ public class ManageMessage extends Task<String> {
                     Singleton.INSTANCE.pontosPlayer2++;
                     Singleton.INSTANCE.updatePontosPlayer2();
 
-                    targetImageView.setImage(new Image("sample/images/cards/hit.png"));
+                    targetImageView.setImage(new Image("sample/images/cards/blank.png"));
                             targetImageView.getStyleClass().clear();
                     targetImageView.getStyleClass().add("correctopponentcard");
 
-                    Singleton.INSTANCE.lastOpenedCard.setImage(new Image("sample/images/cards/hit.png"));
+                    Singleton.INSTANCE.lastOpenedCard.setImage(new Image("sample/images/cards/blank.png"));
                     Singleton.INSTANCE.lastOpenedCard.getStyleClass().clear();
                     Singleton.INSTANCE.lastOpenedCard.getStyleClass().add("correctopponentcard");
                 }
 
+                Singleton.INSTANCE.checkWinner();
                 Singleton.INSTANCE.lastOpenedCard = null;
             }
             else {
@@ -133,13 +134,12 @@ public class ManageMessage extends Task<String> {
                 }
             }
         }
-
     }
 
     private void manageStartMessage (String message){
-        System.out.println(message);
+        System.out.println("received message" + message);
         String[] commandTokens;
-        long opponentStartTime;
+        long opponentMagicNumber;
         Button connectButton;
 
         connectButton = (Button) Singleton.INSTANCE.scene.lookup("#conectarOponente");
@@ -148,15 +148,25 @@ public class ManageMessage extends Task<String> {
         commandTokens = message.split(" ");
         Singleton.INSTANCE.opponentIPAddress = commandTokens[0];
         Singleton.INSTANCE.opponentIMServerPort = Integer.parseInt(commandTokens[1]);
-        opponentStartTime = Long.parseLong(commandTokens[2]);
+        opponentMagicNumber = Long.parseLong(commandTokens[2]);
         Singleton.INSTANCE.opponentName = commandTokens[3];
 
         Singleton.INSTANCE.updatePontosPlayer2();
 
+        if(opponentMagicNumber == Singleton.INSTANCE.magicNumber){
+            Random random = new Random();
+            random.setSeed(System.currentTimeMillis());
+            Singleton.INSTANCE.startSent = false;
+
+            do{
+                Singleton.INSTANCE.magicNumber = random.nextLong();
+            }while(opponentMagicNumber == Singleton.INSTANCE.magicNumber);
+        }
+
         if(!Singleton.INSTANCE.startSent)
             Singleton.INSTANCE.sendStart();
 
-        if(Singleton.INSTANCE.startTime < opponentStartTime){
+        if(Singleton.INSTANCE.magicNumber < opponentMagicNumber){
             Singleton.INSTANCE.sendDeck();
             this.unlockGraphicInterface();
         }

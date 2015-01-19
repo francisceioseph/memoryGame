@@ -1,7 +1,6 @@
 package sample.communication;
 
 import javafx.concurrent.Task;
-import sample.GameCommands;
 import sample.Singleton;
 import sample.utils.Utils;
 

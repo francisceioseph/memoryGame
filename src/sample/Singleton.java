@@ -1,15 +1,17 @@
 package sample;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Dialogs;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import sample.communication.GameCommands;
 import sample.communication.SendCommandRunnable;
 
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -36,7 +38,7 @@ public enum Singleton {
     public int pontosPlayer1;
     public int pontosPlayer2;
 
-    public long startTime;
+    public long magicNumber;
     public boolean startSent = false;
 
 
@@ -86,23 +88,33 @@ public enum Singleton {
     }
 
     public void updatePontosPlayer1(){
-        Label pontosPlayer1Label = (Label) Singleton.INSTANCE.scene.lookup("#pontosPlayer1Label");
 
-        if (Singleton.INSTANCE.localPlayerName.length() > 10)
-            pontosPlayer1Label.setText(String.format("%s...: %03d", Singleton.INSTANCE.localPlayerName.substring(0, 10), Singleton.INSTANCE.pontosPlayer1));
-        else
-            pontosPlayer1Label.setText(String.format("%s: %03d", Singleton.INSTANCE.localPlayerName, Singleton.INSTANCE.pontosPlayer1));
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Label pontosPlayer1Label = (Label) Singleton.INSTANCE.scene.lookup("#pontosPlayer1Label");
+                if (Singleton.INSTANCE.localPlayerName.length() > 10)
+                    pontosPlayer1Label.setText(String.format("%s...: %03d", Singleton.INSTANCE.localPlayerName.substring(0, 10), Singleton.INSTANCE.pontosPlayer1));
+                else
+                    pontosPlayer1Label.setText(String.format("%s: %03d", Singleton.INSTANCE.localPlayerName, Singleton.INSTANCE.pontosPlayer1));
+
+            }
+        });
 
     }
 
     public void updatePontosPlayer2(){
-        Label pontosPlayer2Label = (Label) Singleton.INSTANCE.scene.lookup("#pontosPlayer2Label");
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                Label pontosPlayer2Label = (Label) Singleton.INSTANCE.scene.lookup("#pontosPlayer2Label");
+                if (Singleton.INSTANCE.localPlayerName.length() > 10)
+                    pontosPlayer2Label.setText(String.format("%s...: %03d", Singleton.INSTANCE.opponentName.substring(0, 10), Singleton.INSTANCE.pontosPlayer2));
+                else
+                    pontosPlayer2Label.setText(String.format("%s: %03d", Singleton.INSTANCE.opponentName, Singleton.INSTANCE.pontosPlayer2));
 
-        if (Singleton.INSTANCE.opponentName.length() > 10)
-            pontosPlayer2Label.setText(String.format("%s...: %03d", Singleton.INSTANCE.opponentName.substring(0, 10), Singleton.INSTANCE.pontosPlayer2));
-        else
-            pontosPlayer2Label.setText(String.format("%s: %03d", Singleton.INSTANCE.opponentName, Singleton.INSTANCE.pontosPlayer2));
-
+            }
+        });
     }
 
     /*
@@ -114,10 +126,8 @@ public enum Singleton {
 
         do{
             try{
-                portNumber = Integer.parseInt(Dialogs.showInputDialog(null,
-                        "Qual a porta do servidor de mensagens?",
-                        "Configuração de Porta do Servidor de Mensagens",
-                        "Memory Game"));
+                portNumber = Integer.parseInt(JOptionPane.showInputDialog(null,
+                        "Qual a porta do servidor de mensagens?"));
 
             }catch (NumberFormatException e){
                 isOK = false;
@@ -136,14 +146,15 @@ public enum Singleton {
                 GameCommands.START.toString(),
                 Singleton.INSTANCE.localIPAddress,
                 Singleton.INSTANCE.localIMServerPort,
-                Long.toString(Singleton.INSTANCE.startTime),
+                Long.toString(Singleton.INSTANCE.magicNumber),
                 Singleton.INSTANCE.localPlayerName);
 
-        System.out.println(message);
+        System.out.println("sent message: " + message);
 
         sendCommandRunnable = new SendCommandRunnable(message);
         thread = new Thread(sendCommandRunnable);
         thread.start();
+        Singleton.INSTANCE.startSent = true;
     }
 
     public void sendFlip(int rowIndex, int columnIndex){
@@ -169,5 +180,30 @@ public enum Singleton {
         sendCommandRunnable = new SendCommandRunnable(message);
         thread = new Thread(sendCommandRunnable);
         thread.start();
+    }
+
+    /*
+     * Shared Game Methods
+     */
+
+    public void checkWinner(){
+        if(Singleton.INSTANCE.pontosPlayer1 + Singleton.INSTANCE.pontosPlayer2 == 12){
+            String message;
+
+            if (Singleton.INSTANCE.pontosPlayer1 > Singleton.INSTANCE.pontosPlayer2){
+                message = String.format("Parabéns, %s", Singleton.INSTANCE.localPlayerName);
+            }
+            else {
+                if (Singleton.INSTANCE.pontosPlayer1 < Singleton.INSTANCE.pontosPlayer2) {
+                    message = String.format("Parabéns, %s", Singleton.INSTANCE.opponentName);
+
+                }
+                else {
+                    message = String.format("%s e %s empataram!");
+                }
+            }
+
+            JOptionPane.showMessageDialog(null, message);
+        }
     }
 }

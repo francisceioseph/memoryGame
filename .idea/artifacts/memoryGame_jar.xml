@@ -3,7 +3,7 @@
     <output-path>$PROJECT_DIR$/out/artifacts/memoryGame_jar</output-path>
     <root id="archive" name="memoryGame.jar">
       <element id="module-output" name="memoryGame" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/lib/javafx-dialogs-0.0.4.jar" path-in-jar="/" />
+      <element id="library" level="project" name="javafx-dialogs-0.0.4" />
     </root>
   </artifact>
 </component>
